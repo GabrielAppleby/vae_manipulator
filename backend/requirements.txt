@@ -1,0 +1,16 @@
+numpy
+werkzeug
+gunicorn
+python-dotenv
+Flask
+flask-migrate
+flask-restful
+flask-sqlalchemy
+psycopg2-binary
+pillow
+matplotlib
+tensorboard
+tensorboardx
+torch==1.6.0
+torchvision==0.7.0
+requests

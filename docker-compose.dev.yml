@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    environment:
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=dev_pass
+      - POSTGRES_DB=dev_db
+  db_data:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-db_setup
+    env_file: ./backend/.env 
+    depends_on:
+      - db
+    command: bash -c "flask db migrate -m \"h\" && flask db upgrade && python populate_db.py"
+  backend:
+    build:
+      dockerfile: Dockerfile-servers.dev
+    env_file: ./backend/.env 
+    command: flask run
+    expose: 
+      - 5000
+    volumes:
+      - './backend/app:/usr/app'
+    depends_on:
+      - db_data
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+    command: npm start
+    expose:
+      - 3000
+    volumes:
+      - './frontend/app:/usr/app'
+    stdin_open: true
+    working_dir: '/usr/app'
+  images:
+    build:
+      dockerfile: Dockerfile.images.dev
+    ports:
+      - 3000:80
+
+

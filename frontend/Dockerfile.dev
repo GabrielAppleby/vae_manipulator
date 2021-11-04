@@ -1,0 +1,7 @@
+FROM node:14.11.0-alpine3.12 as build
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY app/package.json ./
+COPY app/package-lock.json ./
+RUN npm install -g --silent
+
