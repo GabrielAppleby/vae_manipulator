@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import torch
 import umap
+from PIL import Image
 
 from torch.utils.data import Subset
 from torchvision.transforms import transforms
@@ -13,8 +14,8 @@ from app.core.nvae import utils
 from app.core.nvae.lmdb_datasets import LMDBDataset
 from app.core.nvae.model import AutoEncoder
 
-LMDB_DIR = Path('/home/gabriel/Documents/embedding_combiner/frontend/celeba/celeba-lmdb')
-PNG_DIR = Path('/home/gabriel/Documents/embedding_combiner/frontend/celeba/celeba-png')
+LMDB_DIR = Path('/home/gabriel/Documents/embedding_combiner/frontend/images/celeba/celeba-lmdb')
+PNG_DIR = Path('/home/gabriel/Documents/embedding_combiner/frontend/images/celeba/celeba-png')
 MODEL_PATH = '/home/gabriel/Documents/embedding_combiner/backend/app/core/celeba_model.pt'
 
 
@@ -49,6 +50,7 @@ def main():
     for index, img_and_label in enumerate(tqdm(train_data)):
         img, label = img_and_label
         arr_img = np.array(img)
+        img = img.resize((64, 64))
         img.save(Path(PNG_DIR, "img_{}.png".format(index)))
         arr_imgs.append(arr_img.flatten())
     arr_imgs = np.stack(arr_imgs) / 255.
@@ -59,22 +61,19 @@ def main():
     labels = []
     for index, img_and_label in enumerate(tqdm(train_data)):
         img, label = img_and_label
+        img = img.resize((64, 64))
         img_name = 'img_{}.png'.format(index)
         img_names.append(img_name)
         labels.append(label)
-        imgs.append(torch.unsqueeze(my_transforms(img), 0))
-        # print(np.array(img).shape)
-        # print(torch.unsqueeze(my_transforms(img), 0).shape)
-    imgs = torch.cat(imgs, dim=0)
-    embedding = model(imgs)
-    del imgs
-    embedding = embedding.detach().numpy()
+        embedding, _, _, _, _ = model(torch.unsqueeze(my_transforms(img), 0))
+        imgs.append(embedding.detach().numpy())
+    imgs = np.concatenate(imgs, axis=0)
     np.savez('raw_data/celeba_db_dataset_embeddings.npz',
              labels=labels,
              img_names=img_names,
              x=projection[:, 0],
              y=projection[:, 1],
-             embedding=embedding)
+             embedding=imgs)
 
 
 if __name__ == '__main__':

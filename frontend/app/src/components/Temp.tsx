@@ -42,7 +42,7 @@ const Temp = (props: PropsFromRedux) => {
         console.log(product);
         return (
             <div>
-                <img src={product} style={{width: 32, height:32}}/>
+                <img src={product} style={{width: 64, height:64}}/>
             </div>
         );
     }

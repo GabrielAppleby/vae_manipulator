@@ -42,7 +42,7 @@ const DefaultImageList = (props: PropsFromRedux) => {
             {images.map((item) => (
                 <ImageListItem key={item.url} style={{width: 84, height:84}}>
                     <div>
-                        <img src={API_URL + `images/${item.url}`} style={{width: 32, height:32}}/>
+                        <img src={API_URL + `images/${item.url}`} style={{width: 64, height:64}}/>
                     </div>
                     <div>
                         <Typography variant="body1">

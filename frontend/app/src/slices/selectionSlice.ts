@@ -13,7 +13,7 @@ export const selectionSlice = createSlice({
     initialState: selectionAdapter.getInitialState(),
     reducers: {
         selectionAdded(state, action) {
-            if (state.ids.length > 1) {
+            if (state.ids.length > 2) {
                 selectionAdapter.removeOne(state, state.ids[0])
                 selectionAdapter.addOne(state, action.payload);
             }

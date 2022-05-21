@@ -15,16 +15,9 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 RUN rm requirements.txt
 
-COPY app /usr/app
-
-COPY raw_data/duke_db_dataset.npz /usr/duke_db_dataset.npz
-
 COPY populate_db.py /usr/populate_db.py
 COPY migrations /usr/migrations
 
-
-RUN chown -R flask:flaskg /usr/app
-RUN chown -R flask:flaskg /usr/duke_db_dataset.npz
 RUN chown -R flask:flaskg /usr/populate_db.py
 RUN chown -R flask:flaskg /usr/migrations
 

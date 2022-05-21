@@ -1,0 +1,4 @@
+.*
+Dockerfile*
+raw_data
+*.pt

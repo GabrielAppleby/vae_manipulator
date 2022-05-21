@@ -22,10 +22,12 @@ export const fetchProduct = createAsyncThunk<any, void, { state: RootState }>('p
     const values = Object.values(entities);
     // @ts-ignore
     const sp = [['url1', values[0].url]]
-    if (values.length > 1)
+    if (values.length > 2)
     {
         // @ts-ignore
         sp.push(['url2', values[1].url])
+        // @ts-ignore
+        sp.push(['url3', values[2].url])
     }
     // @ts-ignore
     url.search = new URLSearchParams(sp).toString();

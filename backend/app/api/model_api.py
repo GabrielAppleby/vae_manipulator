@@ -13,12 +13,15 @@ class ModelEncodeAPI(Resource):
     def post(self) -> Response:
         url1 = request.args.get('url1')
         url2 = request.args.get('url2')
+        url3 = request.args.get('url3')
         if url2:
             pr1 = urlparse(url1)
             file1 = requests.get('http://images/images/{}'.format(pr1.path)).content
             pr2 = urlparse(url2)
             file2 = requests.get('http://images/images/{}'.format(pr2.path)).content
-            test = predict(file1, file2)
+            pr3 = urlparse(url3)
+            file3 = requests.get('http://images/images/{}'.format(pr3.path)).content
+            test = predict(file1, file2, file3)
             file_object = BytesIO()
             test.save(file_object, 'PNG')
             file_object.seek(0)

@@ -1,5 +1,5 @@
 FROM nginx:1.19.2-alpine
-COPY duke /usr/share/nginx/images
+COPY images/celeba/celeba-png /usr/share/nginx/images
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.dev /etc/nginx/conf.d
 RUN cp /etc/nginx/conf.d/nginx.dev /etc/nginx/conf.d/nginx.conf
